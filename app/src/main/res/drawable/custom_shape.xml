@@ -3,5 +3,4 @@
     <solid android:color="#f9f9f9"/>
     <corners android:topLeftRadius="20dp"
         android:topRightRadius="20dp"/>
-
 </shape>
