@@ -8,11 +8,21 @@
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animation_main"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-         app:lottie_loop="true"
+        android:layout_height="300dp"
         app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/cal" />
 
-        app:lottie_rawRes="@raw/calculator"
-        />
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_bold"
+        android:gravity="center"
+        android:text="Calculator"
+        android:textColor="#2b3151"
+        android:textFontWeight="600"
+        android:textSize="35sp" />
+
 
 </LinearLayout>
