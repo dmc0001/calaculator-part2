@@ -1,11 +1,15 @@
 package com.lolodmc70;
 
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.w3c.dom.Text;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -37,7 +41,7 @@ public class HomeActivity extends AppCompatActivity {
         Button zero = findViewById(R.id.zero_buttom);
         Button point = findViewById(R.id.point_button);
         TextView result =  findViewById(R.id.result);
-        TextView operation =  findViewById(R.id.operation);
+        EditText operation =  findViewById(R.id.operation);
 
         point.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,14 +55,14 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        AC.setOnClickListener(new View.OnClickListener() {
+       /* AC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 operation.setText("");
                 num1=0;
                 num2=0;
             }
-        });
+        });*/
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -177,7 +181,8 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                displayOperation("0");
+                //displayOperation("0");
+                updateText("0");
 
             }
         });
@@ -186,88 +191,110 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                displayOperation("1");
+                //displayOperation("1");
+                updateText("1");
             }
         });
         two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                displayOperation("2");
+                //displayOperation("2");
+                updateText("2");
             }
         });
         three.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                displayOperation("3");
+                //displayOperation("3");
+                updateText("3");
             }
         });
         four.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                displayOperation("4");
+                //displayOperation("4");
+                updateText("4");
             }
         });
         five.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                displayOperation("5");
+                //displayOperation("5");
+                updateText("5");
             }
         });
         six.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                displayOperation("6");
+                //displayOperation("6");
+                updateText("6");
             }
         });
         seven.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                displayOperation("7");
+               // displayOperation("7");
+                updateText("7");
             }
         });
         eight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                displayOperation("8");
+                //displayOperation("8");
+                updateText("8");
             }
         });
         nine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            displayOperation("9");
+
+                //displayOperation("9");
+                updateText("9");
+            }
+        });
+
+        AC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                int curPos = operation.getSelectionStart();
+                int txtLen = operation.getText().length();
+
+                if(curPos != 0 && txtLen != 0 ){
+                    SpannableStringBuilder section = (SpannableStringBuilder) operation.getText();
+                    section.replace(curPos-1,curPos,"");
+                    operation.setText(section);
+                    operation.setSelection(curPos-1);
+                }
             }
         });
     }
 
 
+
     private void displayOperation(String val) {
         TextView operation =  findViewById(R.id.operation);
+
         operation.setText(operation.getText()+""+val);
     }
 
 
-    /*private double add(double valOne,double valTwo) {
-        return valOne+valTwo;
-    }
-    private double sub(double valOne,double valTwo) {
-        return valOne-valTwo;
-    }
-    private double mul(double valOne,double valTwo) {
-        return valOne*valTwo;
-    }
-    private double div(double valOne,double valTwo) {
-        return valOne/valTwo;
-    }
-    private double mod(double valOne,double valTwo) {
-        return valOne%valTwo;
-    }*/
+    private void updateText(String strToAdd){
+        EditText operation =  findViewById(R.id.operation);
+       String oldStr = operation.getText().toString();
+       int curPos = operation.getSelectionStart();
+       String left = oldStr.substring(0,curPos);
+        String right = oldStr.substring(curPos);
+        operation.setText(String.format("%s%s%s",left,strToAdd,right));
+        operation.setSelection(curPos+1);
 
+    }
 
 
 }
