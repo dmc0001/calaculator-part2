@@ -6,10 +6,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import org.mariuszgromada.math.mxparser.*;
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.w3c.dom.Text;
+
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -77,32 +77,19 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(Addition || Decimal || Subtract || Multiplication || Remainder || Division) {
-                    num2 = Float.parseFloat(operation.getText() + "");
-                }
+                String userexp = operation.getText().toString();
+                userexp.replaceAll("÷","/");
+                userexp.replaceAll("×","*");
 
-                if(Addition){
-                    result.setText(num1+num2+"");
-                    Addition= false;
-                }
-                if(Subtract){
-                    result.setText(num1-num2+"");
-                    Subtract= false;
-                }
-                if(Multiplication){
-                    result.setText(num1*num2+"");
-                    Multiplication= false;
-                }
-                if(Remainder){
-                    result.setText(num1%num2+"");
-                    Remainder= false;
-                }
-                if(Division){
-                    result.setText(num1/num2+"");
-                    Division= false;
-                }
+                Expression exp = new Expression(userexp);
+                String result = String.valueOf(exp.calculate());
+
+                operation.setText(result);
+                operation.setSelection(result.length());
+
             }
         });
+
 
         plusDivMoins.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,10 +104,11 @@ public class HomeActivity extends AppCompatActivity {
 
                if(operation.getText().length() !=0 ){
 
-        num1=Float.parseFloat(operation.getText()+"");
-          Addition = true;
-          Decimal = false;
-          operation.setText(null);
+                     num1=Float.parseFloat(operation.getText()+"");
+                     Addition = true;
+                     Decimal = false;
+                     //operation.setText(null);
+                     updateText("+");
                }
             }
         });
@@ -133,7 +121,8 @@ public class HomeActivity extends AppCompatActivity {
                     num1=Float.parseFloat(operation.getText()+"");
                     Subtract = true;
                     Decimal = false;
-                    operation.setText(null);
+                   // operation.setText(null);
+                    updateText("-");
                 }
             }
         });
@@ -146,7 +135,8 @@ public class HomeActivity extends AppCompatActivity {
                     num1=Float.parseFloat(operation.getText()+"");
                     Multiplication = true;
                     Decimal = false;
-                    operation.setText(null);
+                 //   operation.setText(null);
+                    updateText("×");
                 }
             }
         });
@@ -159,7 +149,8 @@ public class HomeActivity extends AppCompatActivity {
                     num1=Float.parseFloat(operation.getText()+"");
                     Division = true;
                     Decimal = false;
-                    operation.setText(null);
+                    updateText("÷");
+                    //operation.setText(null);
                 }
             }
         });
@@ -172,7 +163,7 @@ public class HomeActivity extends AppCompatActivity {
                     num1=Float.parseFloat(operation.getText()+"");
                     Remainder = true;
                     Decimal = false;
-                    operation.setText(null);
+                   // operation.setText(null);
                 }
              }
         });
@@ -291,8 +282,14 @@ public class HomeActivity extends AppCompatActivity {
        int curPos = operation.getSelectionStart();
        String left = oldStr.substring(0,curPos);
         String right = oldStr.substring(curPos);
-        operation.setText(String.format("%s%s%s",left,strToAdd,right));
-        operation.setSelection(curPos+1);
+        if(getString(R.string.operation).equals(operation.getText().toString())){
+            operation.setText(strToAdd);
+        }
+        else{
+            operation.setText(String.format("%s%s%s",left,strToAdd,right));
+            operation.setSelection(curPos+1);
+        }
+
 
     }
 
